@@ -1,6 +1,9 @@
 const { app, BrowserWindow,ipcMain,dialog } = require('electron')
-const Store = require('electron-store');//数据存储
-const store = new Store();
+
+const DataStore = require('./renderer/MusicDataStore');
+const myStore = new DataStore({
+  'name':'Music Data'
+})
 
 // store.set('');
 
@@ -35,6 +38,12 @@ app.on('ready',()=>{
       parent:mainWindow
     },'./renderer/add.html')
   })
+
+  ipcMain.on('add-tracks',(event,tracks)=>{
+    const updateTracks = myStore.addTracks(tracks).getTracks();
+    console.log(updateTracks)
+  })
+
   ipcMain.on('open-music-file',(event,arg)=>{
     dialog.showOpenDialog({
       properties:['openFile','multiSelections'],

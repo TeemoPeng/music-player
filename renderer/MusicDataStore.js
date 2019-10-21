@@ -2,6 +2,7 @@ const Store = require('electron-store');
 const uuidv4 = require('uuid/v4');
 const path = require('path');
 
+//数据持久化方法
 class DataStore extends  Store{
 	constructor(settings){
 		super(settings);
@@ -33,4 +34,4 @@ class DataStore extends  Store{
 		return this.saveTracks();
 	}
 }
-export default DataStore;
+module.exports =  DataStore;
