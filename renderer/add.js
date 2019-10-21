@@ -4,10 +4,12 @@ const path = require('path');
 
 let musicFilesPath = [];
 
+//选择音乐
 $('select-music').addEventListener('click',()=> {
 	ipcRenderer.send('open-music-file')
 })
 
+//导入音乐
 $('add-music').addEventListener('click',()=>{
 	ipcRenderer.send('add-tracks',musicFilesPath)
 })

@@ -35,19 +35,21 @@ app.on('ready',()=>{
     console.log('page did-finish-load')
     mainWindow.send('getTracks',myStore.getTracks())
   })
-
+  let addWindow;
   ipcMain.on('add-music-window',(event,arg)=>{
-    const addWindow = new AppWindow({
+    addWindow = new AppWindow({
       width:600,
       height:400,
       parent:mainWindow
     },'./renderer/add.html')
   })
 
+  //导入
   ipcMain.on('add-tracks',(event,tracks)=>{
     const updateTracks = myStore.addTracks(tracks).getTracks();
     console.log(updateTracks)
     mainWindow.send('getTracks',updateTracks)
+    addWindow.hide()
   })
 
   ipcMain.on('open-music-file',(event,arg)=>{

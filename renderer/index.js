@@ -34,6 +34,24 @@ const renderListHTML = (tracks)=>{
 	trackList.innerHTML = tracks.length?`<ul class="list-group">${tracksListHTML}</ul>`:emptyTrackHTML;
 }
 
+//渲染歌曲播放状态
+const renderPlayerHTML = (name,duration) =>{
+	const player = $('player-status');
+	const html = `<div class="col-8 font-weight-bold">
+					正在播放：${name}
+				</div>
+				<div class='col-4'>
+					<span id='current-seeker'>00:00 </span><span>/ ${duration}</span>
+				</div>`;
+	player.innerHTML = html;
+}
+
+//时间更新方法
+const updateProgress = (currentTime)=>{
+	const seeker = $('current-seeker');
+	seeker.innerHTML = currentTime;
+}
+
 //按钮点击事件
 $('tracksList').addEventListener('click',(event)=>{
 	event.preventDefault();
@@ -66,4 +84,14 @@ $('tracksList').addEventListener('click',(event)=>{
 		//删除
 		ipcRenderer.send('delete-track',id)
 	}
+})
+
+musicAudio.addEventListener('loadedmetadata',()=>{
+	//开始渲染播放器状态
+	renderPlayerHTML(currentTrack.fileName,musicAudio.duration)
+})
+
+musicAudio.addEventListener('timeupdate',()=>{
+	//更新播放器状态
+	updateProgress(musicAudio.currentTime);
 })
