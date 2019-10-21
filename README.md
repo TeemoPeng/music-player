@@ -7,6 +7,3 @@
 	
 #### 本地运行项目
 	npm start
-
-#### 项目打包成 App
-	npm run dist
