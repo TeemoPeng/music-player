@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron')
-const { $ } = require('./helper')
+const { $,convertDuration } = require('./helper')
 
 let musicAudio = new Audio();
 let allTracks,currentTrack;
@@ -41,15 +41,20 @@ const renderPlayerHTML = (name,duration) =>{
 					正在播放：${name}
 				</div>
 				<div class='col-4'>
-					<span id='current-seeker'>00:00 </span><span>/ ${duration}</span>
+					<span id='current-seeker'>00:00 </span><span> / ${convertDuration(duration)}</span>
 				</div>`;
 	player.innerHTML = html;
 }
 
 //时间更新方法
-const updateProgress = (currentTime)=>{
+const updateProgress = (currentTime,duration)=>{
+	//计算progress
+	const progress = Math.floor(currentTime/duration*100);
+	const bar = $('player-progress');
+	bar.innerHTML = progress + '%';
+	bar.style.width = progress + '%';
 	const seeker = $('current-seeker');
-	seeker.innerHTML = currentTime;
+	seeker.innerHTML = convertDuration(currentTime);
 }
 
 //按钮点击事件
@@ -93,5 +98,5 @@ musicAudio.addEventListener('loadedmetadata',()=>{
 
 musicAudio.addEventListener('timeupdate',()=>{
 	//更新播放器状态
-	updateProgress(musicAudio.currentTime);
+	updateProgress(musicAudio.currentTime,musicAudio.duration);
 })
