@@ -21,6 +21,8 @@
     "nodemon": "^1.19.4"
   },
   "dependencies": {
-    "bootstrap": "^4.3.1"
+    "bootstrap": "^4.3.1",
+    "electron-store": "^5.0.0",
+    "uuid": "^3.3.3"
   }
 }

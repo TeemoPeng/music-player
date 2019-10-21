@@ -1,5 +1,10 @@
 const { app, BrowserWindow,ipcMain,dialog } = require('electron')
+const Store = require('electron-store');//数据存储
+const store = new Store();
 
+// store.set('');
+
+//封装创建窗口方法
 class AppWindow extends BrowserWindow{
   constructor(config,fileLocation){
     const basicConfig = {
