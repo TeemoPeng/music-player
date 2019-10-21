@@ -40,11 +40,30 @@ $('tracksList').addEventListener('click',(event)=>{
 	const {dataset,classList} =  event.target;
 	const id = dataset && dataset.id;
 	if(id && classList.contains('fa-play')){
-		//播放、暂停音乐
-		currentTrack = allTracks.find(track=>track.id === id);
-		musicAudio.src = currentTrack.path;
-		musicAudio.play();
+		//播放
+
+		if(currentTrack && currentTrack.id === id){
+			//继续播放
+			musicAudio.play();
+		}else{
+			//播放新的音乐
+
+			currentTrack = allTracks.find(track=>track.id === id);
+			musicAudio.src = currentTrack.path;
+			musicAudio.play();			
+			const resetIconEle = document.querySelector('.fa-pause');
+			if(resetIconEle){
+				resetIconEle.classList.replace('fa-pause','fa-play')
+			}
+		}
 
 		classList.replace('fa-play','fa-pause')
+	}else if(id && classList.contains('fa-pause')){
+		//暂停
+		musicAudio.pause();
+		classList.replace('fa-pause','fa-play')
+	}else if(id && classList.contains('fa-trash-alt')){
+		//删除
+		ipcRenderer.send('delete-track',id)
 	}
 })

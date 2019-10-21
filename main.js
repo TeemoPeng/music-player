@@ -63,5 +63,10 @@ app.on('ready',()=>{
       }
     })
   })
+
+  ipcMain.on('delete-track',(event,id)=>{
+    const updateTracks = myStore.deleteTrack(id).getTracks();
+    mainWindow.send('getTracks',updateTracks)
+  })
   // mainWindow.webContents.openDevTools({mode:'bottom'});//打开调试工具
 })
